@@ -57,7 +57,4 @@
       PrivateAssets="all"
     />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lib\" />
-  </ItemGroup>
 </Project>
