@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using ChatCommandAPI;
 using ChatCommandAPI.Utils;
 using UnityEngine;
@@ -27,9 +27,14 @@ public class LobbyCommand : Command
 
     public override void Invoke(string _args)
     {
-        var args = new[] { Command }.Concat(Args.Parse(_args)).ToArray();
-        if (args.Length <= 1)
+        var args = new List<string>(3) { Command };
+        args.AddRange(Args.Parse(_args));
+        if (args.Count <= 1)
             goto help;
+
+        // some commands below expect this length and will fail if this isn't provided
+        while (args.Count < 3)
+            args.Add(null!);
 
         var node = ScriptableObject.CreateInstance<TerminalNode>();
         bool success;
@@ -51,69 +56,105 @@ public class LobbyCommand : Command
             case "help":
                 goto help;
             case "status":
-                success = LobbyControl.TerminalCommands.LobbyCommand.StatusCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.StatusCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "open":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.OpenCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.OpenCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "close":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.CloseCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.CloseCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "private":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.PrivateCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.PrivateCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "friend":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.FriendCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.FriendCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "public":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.PublicCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.PublicCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "rename":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.RenameCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.RenameCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "autosave":
                 success = LobbyControl.TerminalCommands.LobbyCommand.AutoSaveCommand(
                     ref node,
-                    args
+                    args.ToArray()
                 );
                 break;
             case "save":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.SaveCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.SaveCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "load":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.LoadCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.LoadCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "switch":
                 // why? why not allow switching while landed?
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.SwitchCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.SwitchCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "clear":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.ClearCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.ClearCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             case "dropall":
                 verifyShipPhase();
                 verifyCanModify();
-                success = LobbyControl.TerminalCommands.LobbyCommand.DropAllCommand(ref node, args);
+                success = LobbyControl.TerminalCommands.LobbyCommand.DropAllCommand(
+                    ref node,
+                    args.ToArray()
+                );
                 break;
             default:
                 throw new InvalidArgumentsException();
