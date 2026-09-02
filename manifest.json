@@ -1,6 +1,6 @@
 {
   "name": "LobbyControlCCABindings",
-  "version_number": "2.5.2",
+  "version_number": "2.5.3",
   "website_url": "https://github.com/baerchen201/LethalLobbyControlCCABindings",
   "description": "Chat command bindings for LobbyControl",
   "dependencies": [
