@@ -34,7 +34,7 @@ public class LobbyCommand : Command
 
         // some commands below expect this length and will fail if this isn't provided
         while (args.Count < 3)
-            args.Add(null!);
+            args.Add("");
 
         var node = ScriptableObject.CreateInstance<TerminalNode>();
         bool success;
